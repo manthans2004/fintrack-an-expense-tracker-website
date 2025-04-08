@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Budgeting | FinTrack</title>
+  <style>
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Background and Structure */
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: white;
+      overflow: auto;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      animation: fadeIn 1.5s ease-out;
+    }
+
+    /* Fade-in animation */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Main Container */
+    .budget-container {
+      width: 100%;
+      max-width: 1200px;
+      background-color: rgba(255, 255, 255, 0.9);
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      text-align: center;
+    }
+
+    .budget-card h2 {
+      font-size: 2.5rem;
+      color: #6a11cb;
+    }
+
+    .budget-card p {
+      font-size: 1.2rem;
+      color: #555;
+    }
+
+    /* Categories Section */
+    .budget-categories {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin: 30px 0;
+    }
+
+    .category {
+      background: rgba(255, 255, 255, 0.8);
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      text-align: left;
+      position: relative;
+      overflow: hidden;
+      animation: slideUp 0.6s ease-out;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .category h3 {
+      font-size: 1.5rem;
+      color: #6a11cb;
+      margin-bottom: 10px;
+    }
+
+    .category p {
+      font-size: 1rem;
+      color: #333;
+    }
+
+    /* Progress Bar */
+    .progress-container {
+      width: 100%;
+      background-color: #ddd;
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 15px 0;
+      height: 20px;
+    }
+
+    .progress-bar {
+      height: 100%;
+      text-align: center;
+      color: white;
+      font-size: 0.9rem;
+      line-height: 20px;
+      transition: width 0.4s ease, background-color 0.4s ease;
+    }
+
+    /* Input and Buttons */
+    .input-group {
+      margin-top: 20px;
+    }
+
+    .input-group label {
+      font-size: 1rem;
+      color: #333;
+    }
+
+    .input-group input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+
+    .input-group input[type="number"]:focus {
+      border-color: #6a11cb;
+    }
+
+    .buttons-container {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 15px;
+    }
+
+    .icon-button {
+      width: 50px;
+      height: 50px;
+      background-color: #6a11cb;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      transition: transform 0.3s, background-color 0.3s;
+      position: relative;
+    }
+
+    .icon-button img {
+      width: 24px;
+      height: 24px;
+    }
+
+    .icon-button:hover {
+      background-color: #2575fc;
+      transform: scale(1.1);
+    }
+
+    /* Error Message */
+    .error-message {
+      color: red;
+      font-size: 1rem;
+      margin-top: 15px;
+      display: none;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .category h3 {
+        font-size: 1.2rem;
+      }
+
+      .progress-bar {
+        font-size: 0.8rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .budget-card h2 {
+        font-size: 2rem;
+      }
+
+      .category h3 {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="budget-container">
+    <div class="budget-card">
+      <h2>Budgeting Dashboard</h2>
+      <p>Track your spending and manage your budget effectively!</p>
+      <div class="budget-categories" id="budgetCategories">
+        <!-- Dynamic categories will load here -->
+      </div>
+      <div class="error-message" id="budgetErrorMessage">Please fill out all fields.</div>
+    </div>
+  </div>
+
+  <script>
+    const userId = 'USER_ID';  // Dynamically replace USER_ID after login
+    const token = 'USER_TOKEN';  // Dynamically replace USER_TOKEN after login
+    const predefinedCategories = ["Food", "Transportation", "Entertainment", "Others"];
+
+    window.onload = function() {
+      renderCategories(predefinedCategories);
+      fetchTransactionData(userId);
+    };
+
+    function renderCategories(categories) {
+      const container = document.getElementById('budgetCategories');
+      container.innerHTML = '';
+      categories.forEach(category => {
+        const div = document.createElement('div');
+        div.className = 'category';
+        div.innerHTML = `
+          <h3>${category}</h3>
+          <p>Spent: ₹0.00</p>
+          <div class="progress-container">
+            <div class="progress-bar" style="width: 0%; background-color: lightgreen;">0%</div>
+          </div>
+          <div class="input-group">
+            <label>Set Budget for ${category}</label>
+            <input type="number" placeholder="Enter Amount" id="${category}-budget">
+          </div>
+          <div class="buttons-container">
+            <div class="icon-button" onclick="saveBudget('${category}')">
+              <img src="https://img.icons8.com/ios/452/plus.png" alt="Save">
+            </div>
+            <div class="icon-button" onclick="resetBudget('${category}')">
+              <img src="https://img.icons8.com/ios/452/delete.png" alt="Reset">
+            </div>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function fetchTransactionData(userId) {
+      fetch(`/api/transactions/${userId}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        updateCategorySpending(data);
+      })
+      .catch(error => console.error('Error fetching transactions:', error));
+    }
+
+    function updateCategorySpending(transactions) {
+      const categories = ["Food", "Transportation", "Entertainment", "Others"];
+      categories.forEach(category => {
+        let totalSpent = 0;
+        transactions.forEach(transaction => {
+          if (transaction.category === category) {
+            totalSpent += parseFloat(transaction.amount);
+          }
+        });
+
+        const progressBar = document.querySelector(`#${category} .progress-bar`);
+        const spentText = document.querySelector(`#${category} p`);
+        const progressPercentage = (totalSpent / parseFloat(document.querySelector(`#${category}-budget`).value)) * 100;
+
+        spentText.textContent = `Spent: ₹${totalSpent.toFixed(2)}`;
+        progressBar.style.width = `${progressPercentage}%`;
+
+        if (progressPercentage > 100) {
+          progressBar.style.backgroundColor = 'darkred';
+        } else {
+          progressBar.style.backgroundColor = 'lightgreen';
+        }
+      });
+    }
+
+    function saveBudget(category) {
+      const budgetAmount = document.querySelector(`#${category}-budget`).value;
+
+      fetch(`/api/budget/save`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ userId, category, budgetAmount })
+      })
+      .then(response => response.json())
+      .then(data => {
+        alert(`${category} budget saved!`);
+      })
+      .catch(error => console.error('Error saving budget:', error));
+    }
+
+    function resetBudget(category) {
+      document.querySelector(`#${category}-budget`).value = '';
+      alert(`${category} budget reset!`);
+    }
+  </script>
+</body>
+</html>

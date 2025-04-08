@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up | Fintrack</title>
+  <style>
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Background and Structure */
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #6a11cb, #2575fc); /* Lavender Gradient */
+      color: white;
+      text-align: center;
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 1.5s ease-out; /* Fade-in animation */
+    }
+
+    /* Fade-in animation for the page */
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    /* Background Images */
+    .background-images {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+
+    .background-images img {
+      position: absolute;
+      width: 100px;
+      opacity: 0.2;
+      animation: move 20s linear infinite;
+      transform: rotate(-15deg);
+    }
+
+    @keyframes move {
+      from { transform: translateY(-300px) rotate(-15deg); }
+      to { transform: translateY(100vh) rotate(15deg); }
+    }
+
+    .background-images img:nth-child(1) { left: 15%; animation-delay: 0s; }
+    .background-images img:nth-child(2) { left: 35%; animation-delay: 3s; }
+    .background-images img:nth-child(3) { left: 65%; animation-delay: 6s; }
+    .background-images img:nth-child(4) { left: 85%; animation-delay: 9s; }
+
+    /* Main Form Container */
+    .signup-container {
+      width: 100%;
+      max-width: 450px; /* Same width as login page */
+      background-color: #ffffff;
+      border-radius: 15px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      padding: 40px;
+      text-align: center;
+      animation: slideIn 1s ease-out;
+      z-index: 1; /* Ensure the form appears on top */
+    }
+
+    /* Slide-in animation for the sign-up form */
+    @keyframes slideIn {
+      0% { transform: translateY(50px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    .signup-card {
+      background: #fff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .signup-card h2 {
+      font-size: 2em;
+      margin-bottom: 20px;
+      color: #6a11cb;
+      text-transform: uppercase;
+    }
+
+    .signup-card p {
+      font-size: 1.1em;
+      color: #555;
+      margin-bottom: 30px;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    label {
+      font-size: 1.1em;
+      color: #333;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 12px 20px;
+      font-size: 1em;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="password"]:focus {
+      border-color: #6a11cb;
+    }
+
+    .signup-button {
+      width: 100%;
+      padding: 15px;
+      font-size: 1.2em;
+      background-color: #6a11cb;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+    }
+
+    .signup-button:hover {
+      background-color: #2575fc;
+      transform: scale(1.05);
+    }
+
+    .signup-redirect {
+      margin-top: 20px;
+      font-size: 1em;
+    }
+
+    .signup-redirect a {
+      color: #6a11cb;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .signup-redirect a:hover {
+      text-decoration: underline;
+    }
+
+    /* Error Message */
+    .error-message {
+      color: red;
+      font-size: 1em;
+      margin-top: 15px;
+      display: none;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 480px) {
+      .signup-container {
+        padding: 25px;
+      }
+
+      .signup-card h2 {
+        font-size: 1.8em;
+      }
+
+      .signup-card p {
+        font-size: 1em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="background-images">
+    <img src="https://via.placeholder.com/150?text=$" alt="Dollar symbol floating">
+    <img src="https://via.placeholder.com/150?text=%" alt="Percentage symbol floating">
+    <img src="https://via.placeholder.com/150?text=€" alt="Euro symbol floating">
+    <img src="https://via.placeholder.com/150?text=₹" alt="Rupee symbol floating">
+  </div>
+
+  <div class="signup-container">
+    <div class="signup-card">
+      <!-- Sign-Up Title -->
+      <h2>Create Your Account</h2>
+      <p>Get started with Fintrack by signing up!</p>
+
+      <!-- Sign-Up Form -->
+      <form id="signupForm">
+        <!-- Full Name -->
+        <div class="input-group">
+          <label for="fullName">Full Name</label>
+          <input type="text" id="fullName" name="fullName" placeholder="John Doe" required>
+        </div>
+
+        <!-- Email Address -->
+        <div class="input-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" placeholder="you@example.com" required>
+        </div>
+
+        <!-- Password -->
+        <div class="input-group">
+          <label for="password">Create Password</label>
+          <input type="password" id="password" name="password" placeholder="********" required>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="input-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <input type="password" id="confirmPassword" name="confirmPassword" placeholder="********" required>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="signup-button">Sign Up</button>
+      </form>
+
+      <!-- Redirect to Login -->
+      <p class="signup-redirect">Already have an account? <a href="login.html">Log In</a></p>
+
+      <!-- Error Message -->
+      <p id="errorMessage" class="error-message">Passwords do not match or there was an issue with your submission. Please try again.</p>
+    </div>
+  </div>
+
+  <script>
+    // Handle form submission
+    document.getElementById("signupForm").addEventListener("submit", function(event) {
+  event.preventDefault();
+
+  const formData = new FormData(event.target);
+  const data = {
+    fullName: formData.get("fullName"),
+    email: formData.get("email"),
+    password: formData.get("password"),
+    confirmPassword: formData.get("confirmPassword"), // Ensure confirm password is included
+  };
+
+  // Check if passwords match
+  if (data.password !== data.confirmPassword) {
+    document.getElementById("errorMessage").style.display = 'block';
+    document.getElementById("errorMessage").textContent = "Passwords do not match.";
+    return;
+  }
+
+  // Clear previous error message
+  document.getElementById("errorMessage").style.display = 'none';
+
+  // API call to backend to register user (use your server's endpoint)
+  fetch("/api/signup", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      fullName: data.fullName,
+      email: data.email,
+      password: data.password
+    })
+  })
+  .then(response => response.json())
+  .then(result => {
+    if (result.success) {
+      // Redirect to the login page after successful signup
+      window.location.href = "login.html";
+    } else {
+      document.getElementById("errorMessage").textContent = result.message || "An error occurred. Please try again.";
+      document.getElementById("errorMessage").style.display = 'block';
+    }
+  })
+  .catch(error => {
+    console.error("Error during signup:", error);
+    document.getElementById("errorMessage").textContent = "An error occurred. Please try again.";
+    document.getElementById("errorMessage").style.display = 'block';
+  });
+});
+  </script>
+</body>
+</html>

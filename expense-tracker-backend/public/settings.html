@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings | FinTrack</title>
+  <style>
+    :root {
+      --primary-color: #6a11cb;
+      --secondary-color: #2575fc;
+      --highlight-color: #ff007c;
+      --background-color: rgba(255, 255, 255, 0.9);
+      --input-focus-color: #6a11cb;
+      --button-hover-color: #ff409f;
+      --font-family: 'Poppins', sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-family);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(120deg, var(--primary-color), var(--secondary-color));
+      overflow: hidden;
+      position: relative;
+    }
+
+    .settings-container {
+      width: 100%;
+      max-width: 400px;
+      background: var(--background-color);
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    h2 {
+      font-size: 2em;
+      color: var(--primary-color);
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      text-align: left;
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-size: 1em;
+      color: #333;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    input[type="text"], input[type="email"], input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      font-size: 1em;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    input:focus {
+      border-color: var(--input-focus-color);
+      box-shadow: 0 0 10px var(--input-focus-color);
+    }
+
+    button {
+      width: 100%;
+      padding: 15px;
+      font-size: 1.2em;
+      background: linear-gradient(to right, var(--highlight-color), var(--button-hover-color));
+      color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    .logout-btn {
+      margin-top: 20px;
+      background: #ff4d4d;
+    }
+
+    .logout-btn:hover {
+      background: #ff6666;
+    }
+
+    @media (max-width: 480px) {
+      .settings-container {
+        padding: 25px;
+      }
+
+      h2 {
+        font-size: 1.7em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="settings-container">
+    <h2>Account Settings</h2>
+    <form id="settingsForm">
+      <div class="form-group">
+        <label for="fullName">Full Name</label>
+        <input type="text" id="fullName" name="fullName" placeholder="Your Full Name" readonly>
+      </div>
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com" readonly>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="********" readonly>
+      </div>
+      <button type="button" class="logout-btn" id="logoutButton">Log Out</button>
+    </form>
+  </div>
+
+  <script>
+    // Fetch user data and populate fields
+    document.addEventListener('DOMContentLoaded', async () => {
+      try {
+        // Fetch user data from the server
+        const response = await fetch('/api/user', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+
+        if (response.ok) {
+          const userData = await response.json();
+          document.getElementById('fullName').value = userData.fullName;
+          document.getElementById('email').value = userData.email;
+          document.getElementById('password').value = '********'; // Masked for security
+        } else {
+          alert('Failed to fetch user data. Please log in again.');
+          window.location.href = 'login.html';
+        }
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+        alert('An error occurred while fetching user details.');
+      }
+    });
+
+    // Handle Logout
+    document.getElementById('logoutButton').addEventListener('click', () => {
+      // Clear stored token
+      localStorage.removeItem('token');
+      // Redirect to index.html
+      window.location.href = 'index.html';
+    });
+  </script>
+</body>
+</html>

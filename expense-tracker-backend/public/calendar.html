@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calendar | Fintrack</title>
+  <style>
+    :root {
+      --primary-color: #6a11cb;
+      --secondary-color: #2575fc;
+      --highlight-color: #ff007c;
+      --background-color: rgba(255, 255, 255, 0.9);
+      --input-focus-color: #6a11cb;
+      --font-family: 'Poppins', sans-serif;
+      --heading-color: #ffffff; /* Light color for headings */
+      --event-color-green: #4CAF50;
+      --event-color-orange: #FFC107;
+      --event-color-red: #F44336;
+    }
+
+    /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font-family);
+      background: linear-gradient(120deg, var(--primary-color), var(--secondary-color));
+      overflow: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Bar */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background: var(--background-color);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .top-bar h1 {
+      font-size: 1.8em;
+      color: var(--heading-color);
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .back-link {
+      font-size: 1em;
+      color: white;
+      background: var(--highlight-color);
+      padding: 10px 20px;
+      border-radius: 50px;
+      text-decoration: none;
+      text-transform: uppercase;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      transition: background 0.3s ease;
+    }
+
+    .back-link:hover {
+      background: var(--secondary-color);
+    }
+
+    /* Calendar Container */
+    main {
+      flex: 1;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #calendar {
+      width: 90%;
+      max-width: 800px;
+      background: var(--background-color);
+      border-radius: 15px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+
+    /* Event Styling */
+    .fc .fc-event {
+      color: white;
+      font-weight: bold;
+      border: none;
+    }
+
+    .fc .fc-toolbar-title {
+      font-size: 1.5em;
+      font-weight: bold;
+      color: var(--primary-color);
+    }
+
+    .fc .fc-button {
+      background-color: var(--primary-color);
+      border: none;
+      color: white;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+
+    .fc .fc-button:hover {
+      background-color: var(--highlight-color);
+    }
+
+    .fc .fc-daygrid-day-number {
+      color: var(--secondary-color);
+      font-weight: bold;
+    }
+  </style>
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.6/index.global.min.css" rel="stylesheet">
+</head>
+<body>
+  <!-- Header Section -->
+  <header class="top-bar">
+    <h1>Calendar</h1>
+    <a href="dashboard.html" class="back-link">Back to Dashboard</a>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <div id="calendar"></div>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.6/index.global.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const savedReminders = JSON.parse(localStorage.getItem("reminders")) || [];
+      const calendarEl = document.getElementById("calendar");
+  
+      const getColorByDateProximity = (date) => {
+        const today = new Date();
+        const reminderDate = new Date(date);
+        const diffInDays = Math.ceil((reminderDate - today) / (1000 * 60 * 60 * 24));
+  
+        if (diffInDays <= 0) return "var(--event-color-red)"; // Red for overdue
+        if (diffInDays <= 2) return "var(--event-color-orange)"; // Orange for near due
+        return "var(--event-color-green)"; // Green for far due
+      };
+  
+      const calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: "dayGridMonth",
+        headerToolbar: {
+          left: "prev,next today",
+          center: "title",
+          right: "dayGridMonth,timeGridWeek,timeGridDay",
+        },
+        events: savedReminders.map((reminder) => ({
+          title: reminder.text,
+          start: reminder.date,
+          backgroundColor: getColorByDateProximity(reminder.date),
+        })),
+      });
+  
+      calendar.render();
+    });
+  </script>
+  
+</body>
+</html>

@@ -1,0 +1,179 @@
+/* General body styling */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #6a11cb, #2575fc);
+    color: white;
+    text-align: center;
+}
+
+/* Fixed header styling */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+/* Profile and Logout icons */
+.header-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.header-icon:hover {
+    transform: scale(1.1);
+}
+
+/* Profile button adjustments */
+.profile {
+    position: absolute;
+    top: 15px;
+    left: 20px;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    outline: none;
+}
+
+.profile img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+/* Logout button adjustments */
+.logout {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    outline: none;
+}
+
+.logout img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+/* Dashboard content */
+.dashboard {
+    padding: 80px 20px 20px; /* Adjust padding to account for header */
+}
+
+/* Welcome message */
+#welcome-message {
+    font-size: 2.5rem; /* Increased font size */
+    font-weight: bold;
+    margin: 10px 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Card styles */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px; /* Reduced gap between categories */
+    justify-content: center;
+}
+
+.card {
+    width: 240px; /* Increased width */
+    height: 300px; /* Increased height */
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.card:hover {
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.card img {
+    width: 180px; /* Increased image size */
+    height: 180px;
+    margin: 20px auto;
+    display: block;
+    border-radius: 10px;
+}
+
+.card h2 {
+    margin-top: 15px;
+    font-size: 1.8rem; /* Increased font size for card titles */
+    font-weight: bold;
+}
+
+/* Popup for profile details */
+.popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    color: black;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    width: 400px;
+}
+
+.hidden {
+    display: none;
+}
+
+.popup-content {
+    text-align: center;
+}
+
+/* Profile picture in popup */
+.popup-profile-pic {
+    width: 120px; /* Increased size */
+    height: 120px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Popup buttons */
+.popup button {
+    background: #2575fc;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    font-size: 1.5rem; /* Increased font size for buttons */
+}
+
+.popup button:hover {
+    background: #6a11cb;
+}
+
+/* Responsive grid for categories */
+.grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Adjusted size for larger cards */
+    gap: 25px; /* Reduced gap between categories */
+    justify-content: center;
+    padding: 20px;
+}

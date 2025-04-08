@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Header Section -->
+  <header class="top-bar">
+    <!-- Profile Icon -->
+    <img id="profile-button" src="profile-icon.png" alt="Profile" class="header-icon" onclick="showProfile()">
+    <!-- Welcome Message -->
+    <h1 id="welcome-message" class="welcome">Welcome, <span id="name">User</span></h1>
+
+    <!-- Logout Icon -->
+    <img id="logout-button" src="logout-icon.png" alt="Logout" class="header-icon" onclick="logout()">
+  </header>
+
+  <!-- Main Dashboard -->
+  <div class="dashboard">
+    <div class="grid-container">
+      <!-- Add Transactions Card -->
+      <div class="card" onclick="navigateTo('Transactions.html')">
+        <img src="add_transactions.jpg" alt="Add Transactions">
+        <p>Add Transactions</p>
+      </div>
+      <!-- Reports Card -->
+      <div class="card" onclick="navigateTo('reports.html')">
+        <img src="reports.jpg" alt="Reports">
+        <p>Reports</p>
+      </div>
+      <!-- News Card -->
+      <div class="card" onclick="navigateTo('news.html')">
+        <img src="news.jpg" alt="News">
+        <p>News</p>
+      </div>
+      <!-- Reminder Card -->
+      <div class="card" onclick="navigateTo('reminder.html')">
+        <img src="reminder.jpg" alt="Reminder">
+        <p>Reminder</p>
+      </div>
+      <!-- Calendar Card -->
+      <div class="card" onclick="navigateTo('calendar.html')">
+        <img src="calendar.png" alt="Calendar">
+        <p>Calendar</p>
+      </div>
+      <!-- Help Card -->
+      <div class="card" onclick="navigateTo('help.html')">
+        <img src="help.jpg" alt="Help">
+        <p>Help</p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Profile Popup -->
+  <div id="profile-popup" class="popup hidden">
+    <div class="popup-content">
+      <img src="profile-placeholder.jpg" alt="User Image" class="popup-profile-pic">
+      <h2>User Profile</h2>
+      <p><strong>Name:</strong> <span id="profile-name"></span></p>
+      <p><strong>Email:</strong> <span id="profile-email"></span></p>
+      <button onclick="closeProfile()">Close</button>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="scripts.js"></script>
+</body>
+</html>

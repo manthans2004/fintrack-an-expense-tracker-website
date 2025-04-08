@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FinTrack - Your personal finance tracker. Organize, analyze, and optimize your expenses effortlessly.">
+    <title>FinTrack - Home</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #6a11cb, #2575fc); /* Lavender Gradient */
+            color: white;
+            text-align: center;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 1.5s ease-out; /* Fade-in animation */
+        }
+
+        /* Fade-in animation for the page */
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+
+        /* Logo Container */
+        .logo-container {
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .logo-container img {
+            width: 180px;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Headings */
+        h1 {
+            font-size: 3em;
+            color: #f3f3f3;
+            text-shadow: 2px 2px 15px rgba(0, 0, 0, 0.3);
+            margin-bottom: 15px;
+        }
+
+        .intro-text {
+            font-size: 1.2em;
+            color: #eaeaea;
+            text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.4);
+            margin-bottom: 40px;
+            max-width: 600px;
+            line-height: 1.5;
+        }
+
+        /* Buttons */
+        .cta {
+            display: flex;
+            gap: 20px;
+            margin-top: 30px;
+            animation: slideIn 1s ease-out;
+        }
+
+        /* Slide-in animation for buttons */
+        @keyframes slideIn {
+            0% { transform: translateY(50px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        .cta button {
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(to right, #ff007c, #ff409f);
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            text-transform: uppercase;
+        }
+
+        .cta button:hover {
+            background: linear-gradient(to right, #ff409f, #ff007c);
+            transform: scale(1.1);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        .cta button:focus {
+            outline: none;
+        }
+
+        /* Tooltip Container */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip-content {
+            display: none;
+            position: absolute;
+            top: 120%; /* Slightly increased space for the dropdown */
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.8); /* Light background */
+            color: #333;
+            padding: 10px 15px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            white-space: nowrap;
+            animation: fadeIn 0.3s ease-in-out;
+            z-index: 1;
+        }
+
+        .tooltip:hover .tooltip-content {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Background Animation */
+        .background-images {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .background-images img {
+            position: absolute;
+            width: 120px;
+            opacity: 0.2;
+            animation: move 20s linear infinite;
+            transform: rotate(-15deg);
+        }
+
+        @keyframes move {
+            from { transform: translateY(-300px) rotate(-15deg); }
+            to { transform: translateY(100vh) rotate(15deg); }
+        }
+
+        .background-images img:nth-child(1) { left: 15%; animation-delay: 0s; }
+        .background-images img:nth-child(2) { left: 35%; animation-delay: 3s; }
+        .background-images img:nth-child(3) { left: 65%; animation-delay: 6s; }
+        .background-images img:nth-child(4) { left: 85%; animation-delay: 9s; }
+
+        .background-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            z-index: -2;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-overlay"></div>
+    <div class="background-images">
+        <img src="https://via.placeholder.com/150?text=$" alt="Dollar symbol floating">
+        <img src="https://via.placeholder.com/150?text=%" alt="Percentage symbol floating">
+        <img src="https://via.placeholder.com/150?text=€" alt="Euro symbol floating">
+        <img src="https://via.placeholder.com/150?text=₹" alt="Rupee symbol floating">
+    </div>
+
+    <div class="logo-container">
+        <img src="ft1.png" alt="FinTrack Logo">
+    </div>
+
+    <h1>Welcome to FinTrack</h1>
+
+    <div class="intro-text">
+        <p>Your personal finance tracker - Organize, Analyze, and Optimize your expenses effortlessly!</p>
+    </div>
+
+    <div class="cta">
+        <button onclick="window.location.href='login.html'">Get Started</button>
+
+        <!-- Features Button -->
+        <div class="tooltip">
+            <button>Features</button>
+            <div class="tooltip-content">
+                <p>"Seamless Tracking, Effortless Control.
+                    Record your expenses in seconds and watch your finances transform.</p>
+            </div>
+        </div>
+
+        <!-- About Button -->
+        <div class="tooltip">
+            <button>About</button>
+            <div class="tooltip-content">
+                <p><strong>Founders:</strong> PMs<br><strong>Motto:</strong> "FinTrack: Smarter Choices for a Brighter Tomorrow.
+                    We empower you to take control of your financial future with clarity and confidence."</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

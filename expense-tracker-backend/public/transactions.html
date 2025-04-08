@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transactions</title>
+  <style>
+    /* Global Styling */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    /* Navbar Styling */
+    .navbar {
+      background-color: rgba(0, 0, 0, 0.7);
+      width: 100%;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      position: fixed;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .navbar .logo h1 {
+      font-size: 1.8rem;
+      color: white;
+    }
+
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      gap: 15px;
+    }
+
+    .navbar ul li a {
+      text-decoration: none;
+      color: white;
+      font-size: 1rem;
+      padding: 8px 12px;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+    }
+
+    .navbar ul li a:hover {
+      background-color: #ffd700;
+      color: black;
+    }
+
+    /* Page Title */
+    .page-title {
+      font-size: 2.5rem;
+      margin: 100px 0 20px;
+      text-align: center;
+    }
+
+    /* Container */
+    .transactions-container {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      width: 90%;
+      max-width: 1200px;
+    }
+
+    /* Sections Styling */
+    .section {
+      background-color: rgba(0, 0, 0, 0.5);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      flex: 1; /* Adjust width to fit container */
+      max-width: 45%; /* Optional: Limit the size */
+    }
+
+    .section h2 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+    }
+
+    /* Form Styling */
+    form .form-group {
+      margin-bottom: 15px;
+    }
+
+    form .form-group label {
+      display: block;
+      font-size: 1rem;
+      margin-bottom: 5px;
+    }
+
+    form .form-group input,
+    form .form-group select,
+    form .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: none;
+      margin-bottom: 10px;
+    }
+
+    form .btn-primary {
+      width: 100%;
+      padding: 12px;
+      font-size: 1rem;
+      background-color: #ffd700;
+      color: black;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    form .btn-primary:hover {
+      background-color: #e1c700;
+    }
+
+    /* Transactions List */
+    .transaction-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: rgba(255, 255, 255, 0.2);
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      color: white;
+    }
+
+    .transaction-item p {
+      margin: 0;
+      font-size: 0.9rem;
+    }
+
+    .transaction-item button {
+      background-color: #ff4d4d;
+      border: none;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .transaction-item button:hover {
+      background-color: #ff0000;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="logo">
+      <h1>Transactions</h1>
+    </div>
+  </nav>
+
+  <!-- Page Title -->
+  <h1 class="page-title">Transactions</h1>
+
+  <!-- Transactions Container -->
+  <div class="transactions-container">
+    <!-- Add Transaction Section -->
+    <div class="section">
+      <h2>Add Transaction</h2>
+      <form id="addTransactionForm">
+        <div class="form-group">
+          <label for="category">Category</label>
+          <select id="category" required>
+            <option value="">Select a category</option>
+            <option value="Food">Food</option>
+            <option value="Transport">Transport</option>
+            <option value="Shopping">Shopping</option>
+            <option value="Others">Others</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="amount">Amount ($)</label>
+          <input type="number" id="amount" placeholder="Enter amount" required>
+        </div>
+        <div class="form-group">
+          <label for="date">Date</label>
+          <input type="date" id="date" required>
+        </div>
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea id="description" placeholder="Add description" required></textarea>
+        </div>
+        <button type="submit" class="btn-primary">Add Transaction</button>
+      </form>
+    </div>
+
+    <!-- Recent Transactions Section -->
+    <div class="section">
+      <h2>Recent Transactions</h2>
+      <div id="transactionsList">
+        <!-- Transactions will appear here -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Authentication check
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("You must log in first!");
+      window.location.href = "login.html"; // Redirect to login if no token
+    }
+
+    // Fetch Transactions - Using async/await
+    async function fetchTransactions() {
+      try {
+        const response = await fetch("/api/transactions", {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${token}`, // Include token in header
+            "Content-Type": "application/json",
+          },
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          const transactionsList = document.getElementById("transactionsList");
+          transactionsList.innerHTML = ""; // Clear previous transactions
+
+          data.transactions.forEach((transaction) => {
+            const transactionDiv = document.createElement("div");
+            transactionDiv.classList.add("transaction-item");
+            transactionDiv.innerHTML = `
+              <p>${transaction.date} - ${transaction.category}: $${transaction.amount}</p>
+              <p>${transaction.description}</p>
+            `;
+            transactionsList.appendChild(transactionDiv);
+          });
+        } else {
+          alert(data.message); // Handle errors like "Invalid Token"
+        }
+      } catch (error) {
+        console.error("Error fetching transactions:", error);
+      }
+    }
+
+    // Fetch transactions on page load
+    fetchTransactions();
+
+    // Add Transaction - Using async/await
+    document.getElementById("addTransactionForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const category = document.getElementById("category").value;
+      const amount = document.getElementById("amount").value;
+      const date = document.getElementById("date").value;
+      const description = document.getElementById("description").value;
+
+      if (!category || !amount || !date || !description) {
+        alert("All fields are required!");
+        return;
+      }
+
+      try {
+        const response = await fetch("/api/transactions", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${token}`, // Include token in header
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ category, amount, date, description }),
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+          alert("Transaction added successfully!");
+          fetchTransactions(); // Reload transactions after adding
+          document.getElementById("addTransactionForm").reset();
+        } else {
+          alert(data.message || "Failed to add transaction.");
+        }
+      } catch (error) {
+        console.error("Error adding transaction:", error);
+        alert("An error occurred while adding the transaction.");
+      }
+    });
+  </script>
+
+</body>
+
+</html>
